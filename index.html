@@ -1,1 +1,854 @@
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KinoTime — фильмы и сериалы</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #08080b;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+
+header {
+    height: 70px;
+    padding: 0 6%;
+    background: #0d0d11;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #e50914;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: #bbb;
+    text-decoration: none;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+.search {
+    display: flex;
+    background: #1c1c22;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.search input {
+    width: 180px;
+    padding: 11px;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.search button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 0 12px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 600px;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+
+    background:
+        linear-gradient(90deg, #08080b 0%, rgba(8,8,11,.9) 35%, rgba(8,8,11,.15)),
+        linear-gradient(0deg, #08080b 0%, transparent 30%),
+        url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1800&q=80");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 570px;
+}
+
+.hero small {
+    color: #e50914;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: 65px;
+    margin: 15px 0;
+}
+
+.hero p {
+    color: #ccc;
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    transition: .3s;
+}
+
+.watch {
+    background: #e50914;
+}
+
+.watch:hover {
+    background: #ff1b26;
+    transform: scale(1.05);
+}
+
+.more {
+    background: #444;
+}
+
+.more:hover {
+    background: #555;
+}
+
+/* SECTION */
+
+section {
+    padding: 55px 6%;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-title h2 {
+    font-size: 28px;
+}
+
+.section-title span {
+    color: #e50914;
+}
+
+/* MOVIES */
+
+.movies {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+}
+
+.card {
+    cursor: pointer;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.poster {
+    height: 290px;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.poster::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        transparent 45%,
+        rgba(0,0,0,.85)
+    );
+}
+
+.rating {
+    position: absolute;
+    z-index: 2;
+    right: 8px;
+    top: 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    background: rgba(0,0,0,.8);
+    color: #ffd700;
+    font-size: 13px;
+}
+
+.movie-info {
+    padding: 11px 2px;
+}
+
+.movie-info h3 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.movie-info p {
+    color: #888;
+    font-size: 13px;
+}
+
+/* POSTERS */
+
+.p1 {
+    background-image:
+    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=80");
+}
+
+.p2 {
+    background-image:
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80");
+}
+
+.p3 {
+    background-image:
+    url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80");
+}
+
+.p4 {
+    background-image:
+    url("https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80");
+}
+
+.p5 {
+    background-image:
+    url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80");
+}
+
+.p6 {
+    background-image:
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80");
+}
+
+.p7 {
+    background-image:
+    url("https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80");
+}
+
+.p8 {
+    background-image:
+    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80");
+}
+
+/* MODAL / PLAYER */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.92);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.player {
+    width: 900px;
+    max-width: 100%;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    z-index: 5;
+    background: rgba(0,0,0,.7);
+    border: none;
+    color: white;
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.play {
+    width: 75px;
+    height: 75px;
+    background: #e50914;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-size: 27px;
+}
+
+.player-info {
+    padding: 20px;
+}
+
+.player-info h2 {
+    margin-bottom: 8px;
+}
+
+.player-info p {
+    color: #888;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 40px 6%;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+}
+
+/* MOBILE */
+
+@media (max-width: 1000px) {
+
+    nav {
+        display: none;
+    }
+
+    .movies {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 0 20px;
+    }
+
+    .search input {
+        width: 120px;
+    }
+
+    .hero {
+        min-height: 500px;
+        padding: 0 25px;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    section {
+        padding: 40px 20px;
+    }
+
+    .movies {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .poster {
+        height: 240px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        Kino<span>Time</span>
+    </div>
+
+    <nav>
+        <a href="#home">Главная</a>
+        <a href="#films">Фильмы</a>
+        <a href="#series">Сериалы</a>
+    </nav>
+
+    <div class="search">
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Поиск..."
+        >
+
+        <button onclick="searchMovies()">🔍</button>
+    </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+
+    <div class="hero-content">
+
+        <small>ПРЕМЬЕРА НЕДЕЛИ</small>
+
+        <h1>Интерстеллар</h1>
+
+        <p>
+            Команда исследователей отправляется через червоточину
+            в космосе, чтобы найти новый дом для человечества.
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="btn watch"
+                onclick="openMovie('Интерстеллар')"
+            >
+                ▶ Смотреть
+            </button>
+
+            <button class="btn more">
+                Подробнее
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FILMS -->
+
+<section id="films">
+
+    <div class="section-title">
+
+        <h2>Популярные фильмы</h2>
+
+        <span>Смотреть все →</span>
+
+    </div>
+
+
+    <div class="movies" id="movieList">
+
+
+        <div class="card" data-title="Интерстеллар">
+
+            <div class="poster p1">
+                <span class="rating">★ 8.7</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Интерстеллар</h3>
+                <p>Фантастика · 2014</p>
+            </div>
+
+        </div>
+
+
+        <div class="card" data-title="Начало">
+
+            <div class="poster p2">
+                <span class="rating">★ 8.8</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Начало</h3>
+                <p>Фантастика · 2010</p>
+            </div>
+
+        </div>
+
+
+        <div class="card" data-title="Дюна">
+
+            <div class="poster p3">
+                <span class="rating">★ 8.0</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Дюна</h3>
+                <p>Фантастика · 2021</p>
+            </div>
+
+        </div>
+
+
+        <div class="card" data-title="Матрица">
+
+            <div class="poster p4">
+                <span class="rating">★ 8.7</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Матрица</h3>
+                <p>Боевик · 1999</p>
+            </div>
+
+        </div>
+
+
+        <div class="card" data-title="Оппенгеймер">
+
+            <div class="poster p5">
+                <span class="rating">★ 8.6</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Оппенгеймер</h3>
+                <p>Драма · 2023</p>
+            </div>
+
+        </div>
+
+
+        <div class="card" data-title="Аватар">
+
+            <div class="poster p6">
+                <span class="rating">★ 7.8</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Аватар</h3>
+                <p>Фантастика · 2009</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SERIES -->
+
+<section id="series">
+
+    <div class="section-title">
+
+        <h2>Популярные сериалы</h2>
+
+        <span>Смотреть все →</span>
+
+    </div>
+
+
+    <div class="movies">
+
+
+        <div class="card">
+
+            <div class="poster p7">
+                <span class="rating">★ 9.2</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Во все тяжкие</h3>
+                <p>Драма · 2008</p>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="poster p8">
+                <span class="rating">★ 8.7</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Очень странные дела</h3>
+                <p>Фантастика · 2016</p>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="poster p3">
+                <span class="rating">★ 8.9</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Игра престолов</h3>
+                <p>Фэнтези · 2011</p>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="poster p4">
+                <span class="rating">★ 8.6</span>
+            </div>
+
+            <div class="movie-info">
+                <h3>Уэнсдэй</h3>
+                <p>Комедия · 2022</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PLAYER -->
+
+<div class="modal" id="modal">
+
+    <div class="player">
+
+        <button class="close" onclick="closeMovie()">
+            ×
+        </button>
+
+        <div class="video">
+
+            <div>
+
+                <div class="play">
+                    ▶
+                </div>
+
+                <h2 id="movieTitle">
+                    Фильм
+                </h2>
+
+                <p style="color:#777; margin-top:10px;">
+                    Здесь будет видеоплеер
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="player-info">
+
+            <h2 id="movieName">
+                Интерстеллар
+            </h2>
+
+            <p>
+                Выберите фильм для просмотра.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="logo">
+        Kino<span>Time</span>
+    </div>
+
+    <p>
+        © 2026 KinoTime
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ОТКРЫТИЕ ПЛЕЕРА */
+
+function openMovie(name) {
+
+    document.getElementById("movieTitle").textContent = name;
+
+    document.getElementById("movieName").textContent = name;
+
+    document.getElementById("modal").classList.add("show");
+
+}
+
+
+/* ЗАКРЫТИЕ ПЛЕЕРА */
+
+function closeMovie() {
+
+    document.getElementById("modal").classList.remove("show");
+
+}
+
+
+/* ПОИСК */
+
+function searchMovies() {
+
+    let input =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    let cards =
+        document.querySelectorAll(".card");
+
+    cards.forEach(function(card) {
+
+        let title =
+            card
+            .querySelector("h3")
+            .textContent
+            .toLowerCase();
+
+        if (title.includes(input)) {
+
+            card.style.display = "";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* ПОИСК В РЕАЛЬНОМ ВРЕМЕНИ */
+
+document
+.getElementById("searchInput")
+.addEventListener("input", searchMovies);
+
+
+/* КЛИК ПО ФИЛЬМУ */
+
+document
+.querySelectorAll(".card")
+.forEach(function(card) {
+
+    card.addEventListener("click", function() {
+
+        let title =
+            card.querySelector("h3").textContent;
+
+        openMovie(title);
+
+    });
+
+});
+
+
+/* ESC ЗАКРЫВАЕТ ОКНО */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closeMovie();
+
+    }
+
+});
+
+
+/* КЛИК ВНЕ ПЛЕЕРА */
+
+document
+.getElementById("modal")
+.addEventListener("click", function(event) {
+
+    if (event.target === this) {
+
+        closeMovie();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
 
