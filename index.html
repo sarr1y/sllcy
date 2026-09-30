@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 1. Настройка Content Security Policy (CSP) для предотвращения XSS и загрузки скриптов с чужих источников -->
+<!-- 1. Content Security Policy (CSP) для защиты от XSS и загрузки скриптов с неавторизованных ресурсов -->
 <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     style-src 'self' 'unsafe-inline'; 
@@ -13,7 +13,7 @@
     script-src 'self' 'unsafe-inline';
 ">
 
-<!-- 2. Политика Referral для защиты приватности пользователей -->
+<!-- 2. Защита конфиденциальности при переходах -->
 <meta name="referrer" content="no-referrer-when-downgrade">
 
 <title>KinoTime — фильмы и сериалы</title>
@@ -249,7 +249,7 @@ section {
     font-size: 13px;
 }
 
-/* POSTERS */
+/* POSTERS (Использование строго HTTPS источников) */
 .p1 { background-image: url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=80"); }
 .p2 { background-image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80"); }
 .p3 { background-image: url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80"); }
@@ -336,7 +336,7 @@ footer {
     color: #777;
 }
 
-/* MOBILE */
+/* MOBILE RESPONSIVE */
 @media (max-width: 1000px) {
     nav { display: none; }
     .movies { grid-template-columns: repeat(3, 1fr); }
@@ -370,7 +370,6 @@ footer {
     </nav>
 
     <div class="search">
-        <!-- 3. Ограничение длины ввода и автозаполнения -->
         <input 
             id="searchInput" 
             type="text" 
@@ -510,7 +509,7 @@ footer {
 
         <div class="player-info">
             <h2 id="movieName">Название</h2>
-            <p id="movieDescription">Описание фильма...</p>
+            <p id="movieDescription">Выберите фильм для просмотра.</p>
         </div>
     </div>
 </div>
@@ -522,10 +521,14 @@ footer {
 </footer>
 
 <script>
-// 4. Использование 'use strict' предотвращает множество неявных ошибок
 'use strict';
 
-// 5. Безопасная функция экранирования строковых данных (XSS-санитизация)
+/* Автоматическое перенаправление с http:// на https:// на стороне клиента */
+if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
+    window.location.href = window.location.href.replace('http:', 'https:');
+}
+
+/* Безопасная очистка текста (XSS-санитизация) */
 function sanitizeString(str) {
     if (typeof str !== 'string') return '';
     return str.replace(/[&<>"']/g, function (match) {
@@ -546,7 +549,6 @@ function openMovie(name) {
     const titleEl = document.getElementById("movieName");
     const video = document.getElementById("playerVideo");
 
-    // Использование textContent (вместо innerHTML) гарантирует безопасный вывод текста
     titleEl.textContent = sanitizeString(name);
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
@@ -569,7 +571,7 @@ function closeMovie() {
     }
 }
 
-/* ПОИСК В РЕАЛЬНОМ ВРЕМЕНИ (с очисткой ввода) */
+/* ПОИСК В РЕАЛЬНОМ ВРЕМЕНИ */
 function searchMovies() {
     const rawInput = document.getElementById("searchInput").value;
     const cleanInput = sanitizeString(rawInput).toLowerCase().trim();
@@ -584,7 +586,7 @@ function searchMovies() {
     });
 }
 
-// 6. Вынос inline-обработчиков onclick из HTML в addEventListener
+/* Назначение безопасных обработчиков событий */
 document.getElementById("searchInput").addEventListener("input", searchMovies);
 document.getElementById("searchBtn").addEventListener("click", searchMovies);
 
