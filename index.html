@@ -4,18 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 1. Content Security Policy (CSP) для защиты от XSS и загрузки скриптов с неавторизованных ресурсов -->
 <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     style-src 'self' 'unsafe-inline'; 
     img-src 'self' https://images.unsplash.com data:; 
     media-src 'self' https://commondatastorage.googleapis.com; 
+    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
     script-src 'self' 'unsafe-inline';
 ">
 
-<!-- 2. Защита конфиденциальности при переходах -->
 <meta name="referrer" content="no-referrer-when-downgrade">
-
 <title>KinoTime — фильмы и сериалы</title>
 
 <style>
@@ -249,7 +247,7 @@ section {
     font-size: 13px;
 }
 
-/* POSTERS (Использование строго HTTPS источников) */
+/* POSTERS */
 .p1 { background-image: url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=600&q=80"); }
 .p2 { background-image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80"); }
 .p3 { background-image: url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80"); }
@@ -303,16 +301,12 @@ section {
     width: 100%;
     aspect-ratio: 16/9;
     background: #050505;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.video-container video {
+.video-container iframe {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border: none;
 }
 
 .player-info {
@@ -336,7 +330,7 @@ footer {
     color: #777;
 }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 @media (max-width: 1000px) {
     nav { display: none; }
     .movies { grid-template-columns: repeat(3, 1fr); }
@@ -370,13 +364,7 @@ footer {
     </nav>
 
     <div class="search">
-        <input 
-            id="searchInput" 
-            type="text" 
-            placeholder="Поиск..." 
-            maxlength="50"
-            autocomplete="off"
-        >
+        <input id="searchInput" type="text" placeholder="Поиск..." maxlength="50" autocomplete="off">
         <button id="searchBtn" aria-label="Искать">🔍</button>
     </div>
 </header>
@@ -403,7 +391,8 @@ footer {
     </div>
 
     <div class="movies">
-        <div class="card">
+        <!-- Атрибуты data-title и data-video связывают карточку с видео -->
+        <div class="card" data-title="Интерстеллар" data-video="https://www.youtube-nocookie.com/embed/zSWdZVtXT7E?autoplay=1">
             <div class="poster p1"><span class="rating">★ 8.7</span></div>
             <div class="movie-info">
                 <h3>Интерстеллар</h3>
@@ -411,7 +400,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Начало" data-video="https://www.youtube-nocookie.com/embed/YoHD9XEInc0?autoplay=1">
             <div class="poster p2"><span class="rating">★ 8.8</span></div>
             <div class="movie-info">
                 <h3>Начало</h3>
@@ -419,7 +408,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Дюна" data-video="https://www.youtube-nocookie.com/embed/DOl3SIn6V64?autoplay=1">
             <div class="poster p3"><span class="rating">★ 8.0</span></div>
             <div class="movie-info">
                 <h3>Дюна</h3>
@@ -427,7 +416,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Матрица" data-video="https://www.youtube-nocookie.com/embed/vKQi3bBA1y8?autoplay=1">
             <div class="poster p4"><span class="rating">★ 8.7</span></div>
             <div class="movie-info">
                 <h3>Матрица</h3>
@@ -435,7 +424,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Оппенгеймер" data-video="https://www.youtube-nocookie.com/embed/bK6ldnjE3Y0?autoplay=1">
             <div class="poster p5"><span class="rating">★ 8.6</span></div>
             <div class="movie-info">
                 <h3>Оппенгеймер</h3>
@@ -443,7 +432,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Аватар" data-video="https://www.youtube-nocookie.com/embed/5PSNL1qE6VY?autoplay=1">
             <div class="poster p6"><span class="rating">★ 7.8</span></div>
             <div class="movie-info">
                 <h3>Аватар</h3>
@@ -461,7 +450,7 @@ footer {
     </div>
 
     <div class="movies">
-        <div class="card">
+        <div class="card" data-title="Во все тяжкие" data-video="https://www.youtube-nocookie.com/embed/HhesaQXLuRY?autoplay=1">
             <div class="poster p7"><span class="rating">★ 9.2</span></div>
             <div class="movie-info">
                 <h3>Во все тяжкие</h3>
@@ -469,7 +458,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Очень странные дела" data-video="https://www.youtube-nocookie.com/embed/b9EkMc79ZSU?autoplay=1">
             <div class="poster p8"><span class="rating">★ 8.7</span></div>
             <div class="movie-info">
                 <h3>Очень странные дела</h3>
@@ -477,7 +466,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Игра престолов" data-video="https://www.youtube-nocookie.com/embed/KPLWWIOCOOQ?autoplay=1">
             <div class="poster p3"><span class="rating">★ 8.9</span></div>
             <div class="movie-info">
                 <h3>Игра престолов</h3>
@@ -485,7 +474,7 @@ footer {
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-title="Уэнсдэй" data-video="https://www.youtube-nocookie.com/embed/Di310WS8zLk?autoplay=1">
             <div class="poster p4"><span class="rating">★ 8.6</span></div>
             <div class="movie-info">
                 <h3>Уэнсдэй</h3>
@@ -501,15 +490,13 @@ footer {
         <button class="close" id="modalCloseBtn" aria-label="Закрыть окно">×</button>
 
         <div class="video-container">
-            <video id="playerVideo" controls controlsList="nodownload" poster="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=80">
-                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-                Ваш браузер не поддерживает видео.
-            </video>
+            <!-- Плеер подгружается динамически при открытии карточки -->
+            <iframe id="videoIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
         </div>
 
         <div class="player-info">
             <h2 id="movieName">Название</h2>
-            <p id="movieDescription">Выберите фильм для просмотра.</p>
+            <p id="movieDescription">Приятного просмотра!</p>
         </div>
     </div>
 </div>
@@ -523,52 +510,36 @@ footer {
 <script>
 'use strict';
 
-/* Автоматическое перенаправление с http:// на https:// на стороне клиента */
-if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
-    window.location.href = window.location.href.replace('http:', 'https:');
-}
-
-/* Безопасная очистка текста (XSS-санитизация) */
 function sanitizeString(str) {
     if (typeof str !== 'string') return '';
     return str.replace(/[&<>"']/g, function (match) {
-        const escapeChars = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#x27;'
-        };
+        const escapeChars = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' };
         return escapeChars[match];
     });
 }
 
 /* ОТКРЫТИЕ ПЛЕЕРА */
-function openMovie(name) {
+function openMovie(name, videoUrl) {
     const modal = document.getElementById("modal");
     const titleEl = document.getElementById("movieName");
-    const video = document.getElementById("playerVideo");
+    const iframe = document.getElementById("videoIframe");
 
     titleEl.textContent = sanitizeString(name);
+    iframe.src = videoUrl; // Загружаем видео
+    
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
-
-    if (video) {
-        video.currentTime = 0;
-    }
 }
 
 /* ЗАКРЫТИЕ ПЛЕЕРА */
 function closeMovie() {
     const modal = document.getElementById("modal");
-    const video = document.getElementById("playerVideo");
+    const iframe = document.getElementById("videoIframe");
 
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
-
-    if (video) {
-        video.pause();
-    }
+    
+    iframe.src = ""; // Останаваем воспроизведение при закрытии
 }
 
 /* ПОИСК В РЕАЛЬНОМ ВРЕМЕНИ */
@@ -586,21 +557,26 @@ function searchMovies() {
     });
 }
 
-/* Назначение безопасных обработчиков событий */
+/* НАЗНАЧЕНИЕ СОБЫТИЙ */
 document.getElementById("searchInput").addEventListener("input", searchMovies);
 document.getElementById("searchBtn").addEventListener("click", searchMovies);
 
-document.getElementById("heroWatchBtn").addEventListener("click", () => openMovie('Интерстеллар'));
-document.getElementById("heroMoreBtn").addEventListener("click", () => openMovie('Интерстеллар'));
+document.getElementById("heroWatchBtn").addEventListener("click", () => {
+    openMovie('Интерстеллар', 'https://www.youtube-nocookie.com/embed/zSWdZVtXT7E?autoplay=1');
+});
+document.getElementById("heroMoreBtn").addEventListener("click", () => {
+    openMovie('Интерстеллар', 'https://www.youtube-nocookie.com/embed/zSWdZVtXT7E?autoplay=1');
+});
 
 document.getElementById("modalCloseBtn").addEventListener("click", closeMovie);
 
-/* КЛИК ПО КАРТОЧКАМ */
+/* КЛИК ПО КАРТОЧКАМ ФИЛЬМОВ */
 document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("click", () => {
-        const h3 = card.querySelector("h3");
-        if (h3) {
-            openMovie(h3.textContent);
+        const title = card.getAttribute("data-title");
+        const video = card.getAttribute("data-video");
+        if (title && video) {
+            openMovie(title, video);
         }
     });
 });
