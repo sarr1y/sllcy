@@ -6,15 +6,19 @@
 
 <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
-    style-src 'self' 'unsafe-inline'; 
-    img-src 'self' https://images.unsplash.com data:; 
+    style-src 'self' 'unsafe-inline' https://elfsightcdn.com https://static.elfsight.com; 
+    img-src 'self' https://images.unsplash.com https://elfsightcdn.com https://static.elfsight.com data:; 
     media-src 'self' https://commondatastorage.googleapis.com; 
-    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
-    script-src 'self' 'unsafe-inline';
+    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://elfsightcdn.com https://apps.elfsight.com https://core.elfsight.com;
+    script-src 'self' 'unsafe-inline' https://elfsightcdn.com https://static.elfsight.com;
+    connect-src 'self' https://elfsightcdn.com https://core.elfsight.com https://static.elfsight.com;
 ">
 
 <meta name="referrer" content="no-referrer-when-downgrade">
 <title>KinoTime — фильмы и сериалы</title>
+
+<!-- Скрипт виджета погоды Elfsight -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
 
 <style>
 * {
@@ -45,12 +49,14 @@ header {
     top: 0;
     z-index: 100;
     border-bottom: 1px solid #222;
+    gap: 15px;
 }
 
 .logo {
     font-size: 27px;
     font-weight: bold;
     user-select: none;
+    flex-shrink: 0;
 }
 
 .logo span {
@@ -72,11 +78,19 @@ nav a:hover {
     color: #fff;
 }
 
+/* КОНТЕЙНЕР ПОГОДЫ */
+.header-weather {
+    display: flex;
+    align-items: center;
+    min-width: 140px;
+}
+
 .search {
     display: flex;
     background: #1c1c22;
     border-radius: 7px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .search input {
@@ -338,7 +352,8 @@ footer {
 }
 
 @media (max-width: 600px) {
-    header { padding: 0 20px; }
+    header { padding: 0 15px; }
+    .header-weather { display: none; } /* Скрываем погоду в шапке на маленьких экранах, чтобы не ломать меню */
     .search input { width: 120px; }
     .hero { min-height: 500px; padding: 0 25px; }
     .hero h1 { font-size: 40px; }
@@ -362,6 +377,11 @@ footer {
         <a href="#films">Фильмы</a>
         <a href="#series">Сериалы</a>
     </nav>
+
+    <!-- ВИДЖЕТ ПОГОДЫ В ШАПКЕ -->
+    <div class="header-weather">
+        <div class="elfsight-app-62f731df-5ec4-44c5-983d-79e6bbf133dd"></div>
+    </div>
 
     <div class="search">
         <input id="searchInput" type="text" placeholder="Поиск..." maxlength="50" autocomplete="off">
@@ -391,7 +411,6 @@ footer {
     </div>
 
     <div class="movies">
-        <!-- Атрибуты data-title и data-video связывают карточку с видео -->
         <div class="card" data-title="Интерстеллар" data-video="https://www.youtube-nocookie.com/embed/zSWdZVtXT7E?autoplay=1">
             <div class="poster p1"><span class="rating">★ 8.7</span></div>
             <div class="movie-info">
@@ -490,7 +509,6 @@ footer {
         <button class="close" id="modalCloseBtn" aria-label="Закрыть окно">×</button>
 
         <div class="video-container">
-            <!-- Плеер подгружается динамически при открытии карточки -->
             <iframe id="videoIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
         </div>
 
@@ -525,7 +543,7 @@ function openMovie(name, videoUrl) {
     const iframe = document.getElementById("videoIframe");
 
     titleEl.textContent = sanitizeString(name);
-    iframe.src = videoUrl; // Загружаем видео
+    iframe.src = videoUrl;
     
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
@@ -539,7 +557,7 @@ function closeMovie() {
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
     
-    iframe.src = ""; // Останаваем воспроизведение при закрытии
+    iframe.src = "";
 }
 
 /* ПОИСК В РЕАЛЬНОМ ВРЕМЕНИ */
